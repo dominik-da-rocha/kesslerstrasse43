@@ -1,11 +1,9 @@
 # docker environments
 .env
 
-# proxy certificates and password files
+# proxy certificates and content
 nginx/home/**
 nginx/html/**
 
 # blog server files
 wordpress/**
-
-
