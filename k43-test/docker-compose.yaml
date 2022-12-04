@@ -1,0 +1,51 @@
+version: '3.7'
+services:
+  #-----------------------------------------------------
+  # wordpress
+  #-----------------------------------------------------
+  service-wordpress:
+    container_name: wordpress-dev
+    image: wordpress
+    restart: always
+    networks:
+      - net-backend
+      - net-wordpress-db
+    ports:
+      - 8081:80
+    environment:
+      WORDPRESS_DB_HOST: wordpress-db-dev
+      WORDPRESS_DB_NAME: wp_db
+      WORDPRESS_DB_USER: wp_user
+      WORDPRESS_DB_PASSWORD: 1234
+    volumes:
+      - vol-wordpress-dev:/var/www/html
+    depends_on:
+      - service-wordpress-db-dev
+
+  #-----------------------------------------------------
+  # wordpress
+  #-----------------------------------------------------
+  service-wordpress-db-dev:
+    container_name: wordpress-db-dev
+    image: mysql:latest
+    restart: always
+    networks:
+      - net-wordpress-db
+    environment:
+      MYSQL_DATABASE: wp_db
+      MYSQL_USER: wp_user
+      MYSQL_PASSWORD: 1234
+      MYSQL_ROOT_PASSWORD: 1234
+    volumes:
+      - vol-wordpress-db-dev:/var/lib/mysql
+
+networks:
+  net-backend:
+  net-wordpress-db:
+
+volumes:
+  vol-wordpress-db-dev:
+  vol-wordpress-dev:
+
+
+
