@@ -2,13 +2,13 @@
 Digitale Kesslerstraße 43
 
 
-## kesslerstrasse43.de
+## Digital Kesslerstraße Blog
 
-This domain is for the wordpress blog 
+A blog powered by wordpress.
 [https://kesslerstrasse43.de](https://kesslerstrasse43.de/)
 
 
-## accarde.kesslerstrasse43.de
+## Acarde-K43
 
-Is the domain of the acarde with a few simple games
+A react app with some simple games
 [https://acarde.kesslerstrasse43.de](https://acarde.kesslerstrasse43.de/)
