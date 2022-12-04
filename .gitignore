@@ -1,0 +1,7 @@
+
+wordpress/**
+
+# certificates and password files
+nginx/home/**
+nginx/html/**
+.env

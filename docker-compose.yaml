@@ -1,0 +1,62 @@
+version: '3.7'
+services:
+  #-----------------------------------------------------
+  # proxy
+  #-----------------------------------------------------
+  service-proxy:
+    container_name: nginx-proxy
+    image: nginx:latest
+    networks:
+      - net-backend
+    ports:
+      - 443:443
+      - 80:80
+    volumes:
+    - ./nginx/html:/usr/share/nginx/html
+    - ./nginx/config:/etc/nginx/conf.d
+    - ./nginx/home:/home
+    depends_on:
+      - service-wordpress
+
+
+  #-----------------------------------------------------
+  # wordpress
+  #-----------------------------------------------------
+  service-wordpress:
+    container_name: wordpress
+    image: wordpress:latest
+    restart: always
+    networks:
+      - net-backend
+      - net-wordpress-db
+    environment:
+      WORDPRESS_DB_HOST: service-wordpress-db
+      WORDPRESS_DB_NAME: ${K43_WORDPRESS_DB_NAME}
+      WORDPRESS_DB_USER: ${K43_WORDPRESS_DB_USER}
+      WORDPRESS_DB_PASSWORD: ${K43_WORDPRESS_DB_PASSWORD}
+    volumes:
+      - ./wordpress/html:/var/www/html
+    depends_on:
+      - service-wordpress-db
+
+  #-----------------------------------------------------
+  # wordpress
+  #-----------------------------------------------------
+  service-wordpress-db:
+    container_name: wordpress-db
+    image: mysql:latest
+    restart: always
+    networks:
+      - net-wordpress-db
+    environment:
+      MYSQL_DATABASE: ${K43_WORDPRESS_DB_NAME}
+      MYSQL_USER: ${K43_WORDPRESS_DB_USER}
+      MYSQL_PASSWORD: ${K43_WORDPRESS_DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${K43_ROOT_DB_PASSWORD}
+    volumes:
+      - ./wordpress/db:/var/lib/mysql
+
+networks:
+  net-backend:
+  net-wordpress-db:
+
