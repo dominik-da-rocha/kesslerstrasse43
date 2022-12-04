@@ -12,3 +12,6 @@ A blog powered by wordpress.
 
 A react app with some simple games
 [https://acarde.kesslerstrasse43.de](https://acarde.kesslerstrasse43.de/)
+
+## Issues
+https://github.com/dominik-da-rocha/kesslerstrasse43/issues
