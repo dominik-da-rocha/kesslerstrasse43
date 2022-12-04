@@ -2,7 +2,7 @@
 Digitale Kesslerstraße 43
 
 
-## Digital Kesslerstraße Blog
+## Digital 'Kesslerstraße' Blog
 
 A blog powered by wordpress.
 [https://kesslerstrasse43.de](https://kesslerstrasse43.de/)
