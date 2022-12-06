@@ -1,62 +1,100 @@
 version: '3.7'
 services:
+
   #-----------------------------------------------------
   # proxy
   #-----------------------------------------------------
-  service-proxy:
-    container_name: nginx-proxy
-    image: nginx:latest
+  srv-proxy:
+    container_name: proxy
+    image: nginx:1.22.1
+    restart: always
     networks:
       - net-backend
     ports:
       - 443:443
       - 80:80
     volumes:
-    - ./nginx/html:/usr/share/nginx/html
-    - ./nginx/config:/etc/nginx/conf.d
-    - ./nginx/home:/home
+      - ./nginx/html:/usr/share/nginx/html
+      - ./nginx/config:/etc/nginx/conf.d
+      - ./nginx/home:/home
     depends_on:
-      - service-wordpress
+      - srv-keycloak
+      - srv-k43-wordpress
+
+  #-----------------------------------------------------
+  # keyvloak
+  #-----------------------------------------------------
+  srv-keycloak:
+    image: jboss/keycloak:15.1.1
+    container_name: keycloak
+    restart: always
+    environment:
+      # User and password for the Administration Console
+      DB_VENDOR: mysql
+      DB_ADDR: mysql
+      DB_PORT: 3306
+      # Same values as the mysql-kc service
+      DB_USER: ${KEYCLOAK_DB_NAME}
+      DB_PASSWORD: ${KEYCLOAK_DB_USER}
+      DB_DATABASE: ${KEYCLOAK_DB_PASSWORD}
+    depends_on:
+      - srv-mysql
+    networks:
+      - net-mysql
+      - net-backend      
 
 
   #-----------------------------------------------------
   # wordpress
   #-----------------------------------------------------
-  service-wordpress:
-    container_name: wordpress
+  srv-k43-wordpress:
+    container_name: k43-wordpress
     image: wordpress:latest
     restart: always
     networks:
       - net-backend
-      - net-wordpress-db
+      - net-mysql
     environment:
-      WORDPRESS_DB_HOST: service-wordpress-db
+      WORDPRESS_DB_HOST: mysql
       WORDPRESS_DB_NAME: ${K43_WORDPRESS_DB_NAME}
       WORDPRESS_DB_USER: ${K43_WORDPRESS_DB_USER}
       WORDPRESS_DB_PASSWORD: ${K43_WORDPRESS_DB_PASSWORD}
     volumes:
       - ./wordpress/html:/var/www/html
     depends_on:
-      - service-wordpress-db
-
+      - srv-mysql
+      
   #-----------------------------------------------------
-  # wordpress
+  # database
   #-----------------------------------------------------
-  service-wordpress-db:
-    container_name: wordpress-db
-    image: mysql:latest
+  srv-mysql:
+    container_name: mysql
+    image: mysql:8.0
     restart: always
     networks:
-      - net-wordpress-db
+      - net-mysql
     environment:
-      MYSQL_DATABASE: ${K43_WORDPRESS_DB_NAME}
-      MYSQL_USER: ${K43_WORDPRESS_DB_USER}
-      MYSQL_PASSWORD: ${K43_WORDPRESS_DB_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${K43_ROOT_DB_PASSWORD}
     volumes:
-      - ./wordpress/db:/var/lib/mysql
+      - vol-mysql:/var/lib/mysql
+      - ./mysql-init:/docker-entrypoint-initdb.d
+
+#  srv-phpmyadmin:
+#    image: phpmyadmin/phpmyadmin
+#    container_name: phpmyadmin
+#    networks:
+#      - net-mysql
+#      - net-backend
+#    environment:
+#      PMA_HOST: mysql
+#      PMA_PORT: 3306
+#      PMA_ARBITRARY: 1
+#    restart: always
 
 networks:
   net-backend:
-  net-wordpress-db:
+  net-mysql:
 
+volumes:
+  vol-mysql:
+  vol-k43-wordpress:
