@@ -40,7 +40,7 @@ $last_modified = gmdate('D, d M Y H:i:s', filemtime($file));
 $etag = '"' . md5($last_modified) . '"';
 header("Last-Modified: $last_modified GMT");
 header('ETag: ' . $etag);
-header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 100000000) . ' GMT');
+header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 3600) . ' GMT');
 
 // Support for Conditional GET
 $client_etag = isset($_SERVER['HTTP_IF_NONE_MATCH']) ? stripslashes($_SERVER['HTTP_IF_NONE_MATCH']) : false;
