@@ -18,31 +18,7 @@ services:
       - ./nginx/config:/etc/nginx/conf.d
       - ./nginx/home:/home
     depends_on:
-      - srv-keycloak
       - srv-k43-wordpress
-
-  #-----------------------------------------------------
-  # keyvloak
-  #-----------------------------------------------------
-  srv-keycloak:
-    image: jboss/keycloak:15.1.1
-    container_name: keycloak
-    restart: always
-    environment:
-      # User and password for the Administration Console
-      DB_VENDOR: mysql
-      DB_ADDR: mysql
-      DB_PORT: 3306
-      # Same values as the mysql-kc service
-      DB_USER: ${KEYCLOAK_DB_NAME}
-      DB_PASSWORD: ${KEYCLOAK_DB_USER}
-      DB_DATABASE: ${KEYCLOAK_DB_PASSWORD}
-    depends_on:
-      - srv-mysql
-    networks:
-      - net-mysql
-      - net-backend      
-
 
   #-----------------------------------------------------
   # wordpress
@@ -79,17 +55,15 @@ services:
       - vol-mysql:/var/lib/mysql
       - ./mysql-init:/docker-entrypoint-initdb.d
 
-#  srv-phpmyadmin:
-#    image: phpmyadmin/phpmyadmin
-#    container_name: phpmyadmin
-#    networks:
-#      - net-mysql
-#      - net-backend
-#    environment:
-#      PMA_HOST: mysql
-#      PMA_PORT: 3306
-#      PMA_ARBITRARY: 1
-#    restart: always
+  srv-phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    networks:
+      - net-mysql
+      - net-backend
+    environment:
+      PMA_ARBITRARY: 1
+    restart: always
 
 networks:
   net-backend:
@@ -97,4 +71,3 @@ networks:
 
 volumes:
   vol-mysql:
-  vol-k43-wordpress:

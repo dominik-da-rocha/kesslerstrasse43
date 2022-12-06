@@ -7,3 +7,6 @@ nginx/html/**
 
 # blog server files
 wordpress/**
+
+# sql backup
+mysql-backup/**
