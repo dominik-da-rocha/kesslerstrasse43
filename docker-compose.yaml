@@ -36,7 +36,7 @@ services:
       WORDPRESS_DB_USER: ${K43_WORDPRESS_DB_USER}
       WORDPRESS_DB_PASSWORD: ${K43_WORDPRESS_DB_PASSWORD}
     volumes:
-      - ./wordpress/html:/var/www/html
+      - vol-k43-wordpress:/var/www/html
     depends_on:
       - srv-mysql
 
@@ -65,9 +65,20 @@ services:
 #      PMA_ARBITRARY: 1
 #    restart: always
 
+  srv-arcade-k43:
+    container_name: arcade-k43
+    image: dominikdarocha/arcade-k43:stable
+    restart: always
+    networks:
+      - net-backend
+    volumes:
+      - ./arcade-43/config:/opt/arcade-k43/config
+
+
 networks:
   net-backend:
   net-mysql:
 
 volumes:
   vol-mysql:
+  vol-k43-wordpress:

@@ -8,10 +8,10 @@ A blog powered by wordpress.
 [https://kesslerstrasse43.de](https://kesslerstrasse43.de/)
 
 
-## Acarde-K43
+## Arcade-K43
 
 A react app with some simple games
-[https://acarde.kesslerstrasse43.de](https://acarde.kesslerstrasse43.de/)
+[https://acrade.kesslerstrasse43.de](https://arcade.kesslerstrasse43.de/)
 
 ## Issues
 https://github.com/dominik-da-rocha/kesslerstrasse43/issues
