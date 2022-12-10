@@ -1,0 +1,3 @@
+# force lf in shellscripts
+*.sh text eol=lf
+*.csr.conf eol=lf
