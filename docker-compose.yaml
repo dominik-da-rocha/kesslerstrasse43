@@ -25,7 +25,9 @@ services:
   #-----------------------------------------------------
   srv-k43-wordpress:
     container_name: k43-wordpress
-    image: wordpress:6.1.1-php8.1-apache
+    build:
+      dockerfile: ./wordpress/Dockerfile
+      context: ./
     restart: always
     networks:
       - net-backend
@@ -55,15 +57,15 @@ services:
       - vol-mysql:/var/lib/mysql
       - ./mysql-init:/docker-entrypoint-initdb.d
 
-#  srv-phpmyadmin:
-#    image: phpmyadmin/phpmyadmin
-#    container_name: phpmyadmin
-#    networks:
-#      - net-mysql
-#      - net-backend
-#    environment:
-#      PMA_ARBITRARY: 1
-#    restart: always
+  #  srv-phpmyadmin:
+  #    image: phpmyadmin/phpmyadmin
+  #    container_name: phpmyadmin
+  #    networks:
+  #      - net-mysql
+  #      - net-backend
+  #    environment:
+  #      PMA_ARBITRARY: 1
+  #    restart: always
 
   srv-arcade-k43:
     container_name: arcade-k43
@@ -74,10 +76,10 @@ services:
     volumes:
       - ./arcade-43/config:/opt/arcade-k43/config
 
-
 networks:
   net-backend:
   net-mysql:
+
 
 volumes:
   vol-mysql:
