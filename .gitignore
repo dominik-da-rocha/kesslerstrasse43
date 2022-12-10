@@ -5,5 +5,8 @@
 nginx/home/**
 nginx/html/**
 
+# wordpress files
+wordpress/**
+
 # sql backup
 mysql-backup/**

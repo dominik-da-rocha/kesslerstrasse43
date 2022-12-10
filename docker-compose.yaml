@@ -19,15 +19,14 @@ services:
       - ./nginx/home:/home
     depends_on:
       - srv-k43-wordpress
+      - srv-arcade-k43
 
   #-----------------------------------------------------
   # wordpress
   #-----------------------------------------------------
   srv-k43-wordpress:
     container_name: k43-wordpress
-    build:
-      dockerfile: ./wordpress/Dockerfile
-      context: ./
+    image: wordpress:6.1.1-php8.1-apache
     restart: always
     networks:
       - net-backend
@@ -38,7 +37,7 @@ services:
       WORDPRESS_DB_USER: ${K43_WORDPRESS_DB_USER}
       WORDPRESS_DB_PASSWORD: ${K43_WORDPRESS_DB_PASSWORD}
     volumes:
-      - vol-k43-wordpress:/var/www/html
+      - ./wordpress/html:/var/www/html
     depends_on:
       - srv-mysql
 
@@ -75,6 +74,8 @@ services:
       - net-backend
     volumes:
       - ./arcade-43/config:/opt/arcade-k43/config
+    depends_on:
+      - srv-mysql
 
 networks:
   net-backend:
@@ -83,4 +84,3 @@ networks:
 
 volumes:
   vol-mysql:
-  vol-k43-wordpress:
