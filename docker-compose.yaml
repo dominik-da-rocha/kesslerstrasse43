@@ -72,8 +72,11 @@ services:
     restart: always
     networks:
       - net-backend
+      - net-mysql 
+    environment:
+      - AK43_DB_PASSWORD=${AK43_DB_PASSWORD}
     volumes:
-      - ./arcade-43/config:/opt/arcade-k43/config
+      - ./arcade-k43/config:/opt/arcade-k43/config
     depends_on:
       - srv-mysql
 
