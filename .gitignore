@@ -10,3 +10,5 @@ wordpress/**
 
 # sql backup
 mysql-backup/**
+
+development/**
